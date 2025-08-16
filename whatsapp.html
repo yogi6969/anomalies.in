@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting to WhatsApp - Anomalies</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNZHMJ07XT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PNZHMJ07XT');
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #25D366;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .whatsapp-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin: 20px 0 10px;
+            font-size: 22px;
+        }
+        p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">ANOMALIES</div>
+        <div class="whatsapp-icon">💬</div>
+        <div class="spinner"></div>
+        <h2>Connecting you to WhatsApp...</h2>
+        <p>Please wait while we redirect you.</p>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Track the WhatsApp click event with detailed parameters
+        gtag('event', 'whatsapp_click', {
+            'campaign_source': getUrlParameter('utm_source') || 'direct',
+            'campaign_medium': getUrlParameter('utm_medium') || 'unknown',
+            'campaign_name': getUrlParameter('utm_campaign') || 'general',
+            'campaign_content': getUrlParameter('utm_content') || 'default',
+            'campaign_id': getUrlParameter('utm_id') || 'none',
+            'page_location': window.location.href,
+            'page_title': document.title,
+            'custom_parameter_1': getUrlParameter('influencer'),
+            'custom_parameter_2': getUrlParameter('platform')
+        });
+
+        // Additional event for campaign tracking
+        if (getUrlParameter('utm_campaign')) {
+            gtag('event', 'campaign_click', {
+                'campaign_name': getUrlParameter('utm_campaign'),
+                'source': getUrlParameter('utm_source'),
+                'medium': getUrlParameter('utm_medium'),
+                'content': getUrlParameter('utm_content')
+            });
+        }
+
+        // WhatsApp redirect logic
+        setTimeout(function() {
+            const phoneNumber = '919428076817';
+            const message = getUrlParameter('message') || 'Hello, I have a question about Anomalies';
+            
+            // Build WhatsApp URL
+            const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+            
+            // Redirect to WhatsApp
+            window.location.href = whatsappUrl;
+        }, 2000); // 2 second delay to ensure tracking fires
+    </script>
+</body>
+</html>
