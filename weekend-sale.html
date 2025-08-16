@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekend Sale - Chat with Anomalies</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PNZHMJ07XT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PNZHMJ07XT');
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .sale-badge {
+            background: #ff4757;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #25D366;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .whatsapp-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">ANOMALIES</div>
+        <div class="sale-badge">🔥 WEEKEND SALE</div>
+        <div class="whatsapp-icon">💬</div>
+        <div class="spinner"></div>
+        <h2>Connecting you to our Weekend Sale team...</h2>
+        <p>Get ready for amazing deals!</p>
+    </div>
+
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Track weekend sale specific event
+        gtag('event', 'weekend_sale_click', {
+            'campaign_source': getUrlParameter('utm_source') || 'direct',
+            'campaign_medium': getUrlParameter('utm_medium') || 'unknown',
+            'campaign_content': getUrlParameter('utm_content') || 'default',
+            'influencer_id': getUrlParameter('utm_content'),
+            'sale_type': 'weekend_sale',
+            'page_location': window.location.href
+        });
+
+        gtag('event', 'whatsapp_click', {
+            'campaign_name': 'weekend_sale',
+            'campaign_source': getUrlParameter('utm_source'),
+            'campaign_medium': getUrlParameter('utm_medium'),
+            'campaign_content': getUrlParameter('utm_content')
+        });
+
+        setTimeout(function() {
+            const phoneNumber = '919428076817';
+            const influencer = getUrlParameter('utm_content') || 'direct';
+            const message = `WEEKEND${getUrlParameter('utm_id') || 'SALE'}-Hi! I'm interested in the Weekend Sale deals!`;
+            
+            const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+            window.location.href = whatsappUrl;
+        }, 2000);
+    </script>
+</body>
+</html>
