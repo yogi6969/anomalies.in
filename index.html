@@ -211,26 +211,51 @@
             screen_resolution: `${screen.width}x${screen.height}`
         };
 
+        console.log('Submitting to webhook:', n8nWebhookUrl);
+        console.log('Payload:', payload);
+
         fetch(n8nWebhookUrl,{
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(payload)
+            body:JSON.stringify(payload),
+            mode: 'cors'
         })
         .then(res=>{
-            if(!res.ok) throw new Error('Network response was not ok');
+            console.log('Response status:', res.status);
+            console.log('Response ok:', res.ok);
+
+            if(!res.ok){
+                return res.text().then(text => {
+                    console.error('Error response body:', text);
+                    throw new Error(`Server responded with ${res.status}: ${text}`);
+                });
+            }
+            return res.text();
+        })
+        .then(data => {
+            console.log('Success response:', data);
             // Success UI
             formBox.innerHTML = `
                 <div style="text-align:center;padding:20px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:12px;">
-                    <h3 style="color:#fff;margin-bottom:.5rem;">🎉 You’re on the list!</h3>
-                    <p style="color:#e0e0e0;">We’ll notify you as soon as we launch.</p>
+                    <h3 style="color:#fff;margin-bottom:.5rem;">🎉 You're on the list!</h3>
+                    <p style="color:#e0e0e0;">We'll notify you as soon as we launch.</p>
                 </div>`;
         })
         .catch(err=>{
-            console.error(err);
+            console.error('Submission error:', err);
+            console.error('Error details:', err.message);
+
             button.disabled = false;
             button.textContent = 'Try Again';
             button.style.background='#dc3545';
-            setTimeout(()=>{button.textContent='Get Early Access';button.style.background='';},3000);
+
+            // Show user-friendly error message
+            alert(`Oops! Something went wrong: ${err.message}\n\nPlease try again or contact us directly.`);
+
+            setTimeout(()=>{
+                button.textContent='Keep me posted';
+                button.style.background='';
+            },3000);
         });
     }
     </script>
